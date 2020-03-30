@@ -8,6 +8,8 @@ var ApiCityRouter_1 = require("./ApiCityRouter");
 var ApiLoginSignup_1 = require("./ApiLoginSignup");
 var ApiCountryRouter_1 = require("./ApiCountryRouter");
 var ApiStateRouter_1 = require("./ApiStateRouter");
+var cors = require("cors");
+app.use(cors());
 app.use(express.json());
 app.listen(7777);
 console.log("server start");

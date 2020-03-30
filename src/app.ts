@@ -6,6 +6,8 @@ import { Product } from "./ApiCityRouter"
 import {ApiLoginSignup} from './ApiLoginSignup'
 import { Country } from "./ApiCountryRouter"
 import { State } from "./ApiStateRouter"
+import * as cors from 'cors';
+app.use(cors())
 app.use(express.json())
 app.listen(7777)
 console.log("server start");

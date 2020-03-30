@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.57% </span>
+                <span class="strong">30.36% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>30/56</span>
+                <span class='fraction'>17/56</span>
             </div>
         
             
@@ -36,16 +36,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
+                <span class="strong">14.29% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/14</span>
+                <span class='fraction'>2/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54.55% </span>
+                <span class="strong">38.64% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>24/44</span>
+                <span class='fraction'>17/44</span>
             </div>
         
             
@@ -54,7 +54,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -225,12 +225,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -306,18 +306,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -329,12 +329,12 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -367,16 +367,16 @@ class State {
     statetype: any
     constructor() {
         this.statetype = express.Router()
-        this.statetype.post("/state", StateSchema.createState(), StateSchema.handlesError, async (req: Request, res: Response, next: express.NextFunction) =&gt; {
+        this.statetype.post("/state", StateSchema.createState(), StateSchema.handlesError, <span class="fstat-no" title="function not covered" >async (r</span>eq: Request, res: Response, next: express.NextFunction<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >) =&gt; {</span></span>
             try {
 &nbsp;
               
-                const docs: any = await new Database().createOne({
+                const <span class="cstat-no" title="statement not covered" >docs: any = <span class="cstat-no" title="statement not covered" >await new Database().createOne({</span></span>
                     collection: "stateDb",
                     data: req.body,
                     criteria:{unique: true}
                 })
-                res.status(200).send(docs)
+<span class="cstat-no" title="statement not covered" >                res.status(200).send(docs)</span>
             }
             catch (err) {
 <span class="cstat-no" title="statement not covered" >                res.status(500).send(`${err.message}-${err.stack}`);</span>
@@ -450,20 +450,20 @@ class State {
         });
 &nbsp;
 &nbsp;
-        this.statetype.put("/state/:id",StateSchema.createState(),StateSchema.handlesError ,async (req:Request,res:Response,next:express.NextFunction)=&gt;{
+        this.statetype.put("/state/:id",StateSchema.createState(),StateSchema.handlesError ,<span class="fstat-no" title="function not covered" >async (r</span>eq:Request,res:Response,next:express.NextFunction<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >)=&gt;{</span></span>
             try {
-                let dat:any ={$set: {
+                let <span class="cstat-no" title="statement not covered" >dat:any ={$set: {</span>
                     country:req.body.country,
                    
                  }
                 }
-                const docs:any = await new Database().updateOne({
+                const <span class="cstat-no" title="statement not covered" >docs:any = <span class="cstat-no" title="statement not covered" >await new Database().updateOne({</span></span>
                     collection: "stateDb",
                     criteria:{ "_id": new ObjectID(req.params.id)},
                     projection:{},
                     data:dat
                 })
-                res.status(200).send(docs) 
+<span class="cstat-no" title="statement not covered" >                res.status(200).send(docs) </span>
             }         
                 catch (err) {
 <span class="cstat-no" title="statement not covered" >                res.status(500).send(`${err.message}-${err.stack}`);</span>
@@ -472,15 +472,15 @@ class State {
             });
 &nbsp;
 &nbsp;
-            this.statetype.delete("/state/:id",  async (req:Request,res:Response,next:express.NextFunction)=&gt;{
+            this.statetype.delete("/state/:id",  <span class="fstat-no" title="function not covered" >async (r</span>eq:Request,res:Response,next:express.NextFunction<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >)=&gt;{</span></span>
                 try {
                     
-                    const docs:any = await new Database().deleteOne({
+                    const <span class="cstat-no" title="statement not covered" >docs:any = <span class="cstat-no" title="statement not covered" >await new Database().deleteOne({</span></span>
                         collection: "stateDb",
                         criteria:{ "_id": new ObjectID(req.params.id)},
                         projection:{},
                     }) 
-                    res.status(200).send(docs) 
+<span class="cstat-no" title="statement not covered" >                    res.status(200).send(docs) </span>
                 }         
                     catch (err) {
 <span class="cstat-no" title="statement not covered" >                    res.status(500).send(`${err.message}-${err.stack}`);</span>
@@ -501,7 +501,7 @@ export { State }</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Mar 18 2020 15:31:13 GMT+0530 (India Standard Time)
+                at Sat Mar 28 2020 15:26:02 GMT+0530 (India Standard Time)
             </div>
         </div>
         <script src="prettify.js"></script>

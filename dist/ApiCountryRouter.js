@@ -47,7 +47,7 @@ var Country = /** @class */ (function () {
     function Country() {
         var _this = this;
         this.countrytype = express.Router();
-        this.countrytype.post("/country", ApiCountrySchema_1.CountrySchema.createCountry(), ApiCitySchema_1.productSchema.handlesError, function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+        this.countrytype.post("/country", ApiCountrySchema_1.CountrySchema.createCountry(), ApiCountrySchema_1.CountrySchema.handlesError, function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
             var docs, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -94,18 +94,11 @@ var Country = /** @class */ (function () {
             });
         }); });
         this.countrytype.get("/country", express_validator_1.query, function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
-            var pageNo, size, query_1, pageResult, docs, err_3;
+            var docs, err_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        pageNo = parseInt(req.query.pageNo);
-                        size = parseInt(req.query.size);
-                        query_1 = {};
-                        if (pageNo < 0 || pageNo === 0) {
-                            pageResult = { "error": true, "message": "invalid page Number" };
-                            return [2 /*return*/, res.send(pageResult)];
-                        }
                         return [4 /*yield*/, new Database_1.Database().readWithSkipAndLimit({
                                 collection: "countryDb",
                                 criteria: { "country": Country }
@@ -180,8 +173,32 @@ var Country = /** @class */ (function () {
                 }
             });
         }); });
-        this.countrytype.delete("/country/:id", function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+        this.countrytype.get("/country", function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
             var docs, err_6;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, new Database_1.Database().read({
+                                collection: "countryDb",
+                                criteria: { country: req.params.country },
+                                projection: {},
+                            })];
+                    case 1:
+                        docs = _a.sent();
+                        res.status(200).send(docs);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_6 = _a.sent();
+                        res.status(500).send(err_6.message + "-" + err_6.stack);
+                        console.log(err_6.message + "-" + err_6.stack);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); });
+        this.countrytype.delete("/country/:id", function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+            var docs, err_7;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -196,9 +213,9 @@ var Country = /** @class */ (function () {
                         res.status(200).send(docs);
                         return [3 /*break*/, 3];
                     case 2:
-                        err_6 = _a.sent();
-                        res.status(500).send(err_6.message + "-" + err_6.stack);
-                        console.log(err_6.message + "-" + err_6.stack);
+                        err_7 = _a.sent();
+                        res.status(500).send(err_7.message + "-" + err_7.stack);
+                        console.log(err_7.message + "-" + err_7.stack);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }

@@ -16,10 +16,7 @@ export class ApiLoginSignup {
 
         this.dataRouter.post('/signup' ,Validator.signupSchema(), Validator.handleError,async(req:Request,res:Response)=>{
             try{
-              
-
             
-                console.log(req.body)
                 const salt = await bcrypt.genSalt()
                req.body.password= await bcrypt.hashSync(req.body.password,10)
                
@@ -38,7 +35,30 @@ export class ApiLoginSignup {
                 console.log(`${err.Message}-${err.stack}`)
 
             }
+
         })
+
+        this.dataRouter.get("/exitsEmail" ,async (req:Request,res:Response,next:express.NextFunction)=>{
+            try {
+                
+                
+                const docs:any = await new Database().read({
+                    collection: "Admindb",
+                    criteria:{ email:req.params.email},
+                    projection:{},
+
+                    
+                    
+                })
+                res.status(200).send(docs) 
+            }         
+                catch (err) {
+                res.status(500).send(`${err.message}-${err.stack}`);
+                console.log(`${err.message}-${err.stack}`)   
+        }
+            });
+
+
 
         this.dataRouter.post("/login", Validator.loginSchema(), Validator.handleError, async (req: Request, res: Response) => {
             try {
@@ -55,6 +75,32 @@ export class ApiLoginSignup {
                     console.log(token);
                 } else
                     res.status(404).send(`Incorrect username/password.`)
+            }
+            catch (err) {
+                res.status(500).send(`${err.message}-${err.stack}`);
+            };
+        });
+
+        this.dataRouter.post("/login", async (req: Request, res: Response) => {
+            try {
+              
+                
+                const docs: any = await new Database().createOne({
+                    collection: "Admindb",
+                    criteria: { email: req.body.email },
+                    projection: {}
+                });
+                if (docs) {
+                  
+                 bcrypt.compare("req.body.password", docs.password).
+                   then((match)=>{
+                        const token = jwt.sign({ "email": req.body.email }, "secretKey");
+                        res.status(200).send(token)
+                        console.log(token);
+                    }) 
+                    res.status(200).send(`password matched login sucessful `)
+                } else
+                    res.status(404).send(`Incorrect password.`)
             }
             catch (err) {
                 res.status(500).send(`${err.message}-${err.stack}`);

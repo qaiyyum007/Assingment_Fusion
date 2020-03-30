@@ -43,8 +43,22 @@ test("Post /login should not issue token if schema is invalid", async done =>{
     done()
 });
 
+test("Post /login should check  email if schema is valid", async done =>{
+    const response= await request(app).post("/login").send({"email":"aleem@gmail.com","password":"Aleem"})
+    const {status,body,text} = response
+    console.log(body)
+    expect(status).toEqual(200)
+    done()
+});
 
 
+test("api must get data exits email, if token present and schema is valid.", async done=>{
+    const response= await request(app).get("/exitsEmail").set({'token':token})
+    const {status,body,text} = response
+    console.log(body)
+    expect(status).toEqual(200)
+    done()
+});
 
 
 
@@ -136,6 +150,9 @@ test("api must update data Country table, if token present and schema is valid."
     expect(status).toEqual(200)
     done()
 });
+
+
+
 
 test(" api must not update data in Country table, if token absent.", async done=>{
     const response= await request(app).put("/api/v1/country/5e691a2517dd24427b045565").send({"country":"America"});
@@ -383,7 +400,17 @@ test("api must delete from City Data, if token present.", async done=>{
     const {status,body,text} = response
     expect(status).toEqual(200)
     done()
+
 });
+test("api must get data Country table, if token present and schema is valid.", async done=>{
+    const response= await request(app).get("/api/v1/country").set({'token':token}).send({"country":"Austria"});
+    const {status,body,text} = response
+    console.log(body)
+    expect(status).toEqual(200)
+    done()
+});
+
+
 
 
 });

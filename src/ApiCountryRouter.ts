@@ -16,7 +16,7 @@ class Country {
     countrytype: any
     constructor() {
         this.countrytype = express.Router()
-        this.countrytype.post("/country", CountrySchema.createCountry(), productSchema.handlesError, async (req: Request, res: Response, next: express.NextFunction) => {
+        this.countrytype.post("/country", CountrySchema.createCountry(), CountrySchema.handlesError, async (req: Request, res: Response, next: express.NextFunction) => {
             try {
       
                 const docs: any = await new Database().createOne({
@@ -61,17 +61,8 @@ class Country {
         this.countrytype.get("/country", query ,async (req: Request, res: Response, next: express.NextFunction) => {
             try {
 
-                const pageNo=parseInt(req.query.pageNo)
-                const size=parseInt(req.query.size)
+              
                 
-                const query ={}
-                if (pageNo<0||pageNo===0){
-                    const pageResult ={"error":true,"message":"invalid page Number"};
-                    return res.send(pageResult)
-                    
-                } 
-                //  query.skip=size*(pageNo-1)
-              //query.limit=size
                 
                 const docs: any = await new Database().readWithSkipAndLimit({
                     collection: "countryDb",
@@ -134,6 +125,27 @@ class Country {
                 console.log(`${err.message}-${err.stack}`)   
         }
             });
+
+
+            this.countrytype.get("/country" ,async (req:Request,res:Response,next:express.NextFunction)=>{
+                try {
+                    
+                    
+                    const docs:any = await new Database().read({
+                        collection: "countryDb",
+                        criteria:{ country:req.params.country},
+                        projection:{},
+
+                        
+                        
+                    })
+                    res.status(200).send(docs) 
+                }         
+                    catch (err) {
+                    res.status(500).send(`${err.message}-${err.stack}`);
+                    console.log(`${err.message}-${err.stack}`)   
+            }
+                });
 
 
             this.countrytype.delete("/country/:id",  async (req:Request,res:Response,next:express.NextFunction)=>{

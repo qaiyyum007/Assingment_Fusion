@@ -53,7 +53,6 @@ var ApiLoginSignup = /** @class */ (function () {
                 switch (_b.label) {
                     case 0:
                         _b.trys.push([0, 4, , 5]);
-                        console.log(req.body);
                         return [4 /*yield*/, bcrypt.genSalt()];
                     case 1:
                         salt = _b.sent();
@@ -78,8 +77,32 @@ var ApiLoginSignup = /** @class */ (function () {
                 }
             });
         }); });
+        this.dataRouter.get("/exitsEmail", function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+            var docs, err_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, new Database_1.Database().read({
+                                collection: "Admindb",
+                                criteria: { email: req.params.email },
+                                projection: {},
+                            })];
+                    case 1:
+                        docs = _a.sent();
+                        res.status(200).send(docs);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_2 = _a.sent();
+                        res.status(500).send(err_2.message + "-" + err_2.stack);
+                        console.log(err_2.message + "-" + err_2.stack);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); });
         this.dataRouter.post("/login", ApiLoginSchema_1.Validator.loginSchema(), ApiLoginSchema_1.Validator.handleError, function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-            var docs, token, err_2;
+            var docs, token, err_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -100,8 +123,43 @@ var ApiLoginSignup = /** @class */ (function () {
                             res.status(404).send("Incorrect username/password.");
                         return [3 /*break*/, 3];
                     case 2:
-                        err_2 = _a.sent();
-                        res.status(500).send(err_2.message + "-" + err_2.stack);
+                        err_3 = _a.sent();
+                        res.status(500).send(err_3.message + "-" + err_3.stack);
+                        return [3 /*break*/, 3];
+                    case 3:
+                        ;
+                        return [2 /*return*/];
+                }
+            });
+        }); });
+        this.dataRouter.post("/login", function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+            var docs, err_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, new Database_1.Database().createOne({
+                                collection: "Admindb",
+                                criteria: { email: req.body.email },
+                                projection: {}
+                            })];
+                    case 1:
+                        docs = _a.sent();
+                        if (docs) {
+                            bcrypt.compare("req.body.password", docs.password).
+                                then(function (match) {
+                                var token = jwt.sign({ "email": req.body.email }, "secretKey");
+                                res.status(200).send(token);
+                                console.log(token);
+                            });
+                            res.status(200).send("password matched login sucessful ");
+                        }
+                        else
+                            res.status(404).send("Incorrect password.");
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_4 = _a.sent();
+                        res.status(500).send(err_4.message + "-" + err_4.stack);
                         return [3 /*break*/, 3];
                     case 3:
                         ;
@@ -110,7 +168,7 @@ var ApiLoginSignup = /** @class */ (function () {
             });
         }); });
         this.dataRouter.get("/login", ApiLoginSchema_1.Validator.loginSchema(), ApiLoginSchema_1.Validator.handleError, function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-            var docs, token, err_3;
+            var docs, token, err_5;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -132,8 +190,8 @@ var ApiLoginSignup = /** @class */ (function () {
                         }
                         return [3 /*break*/, 3];
                     case 2:
-                        err_3 = _a.sent();
-                        res.status(500).send(err_3.message + "-" + err_3.stack);
+                        err_5 = _a.sent();
+                        res.status(500).send(err_5.message + "-" + err_5.stack);
                         return [3 /*break*/, 3];
                     case 3:
                         ;
